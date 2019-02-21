@@ -2,6 +2,7 @@
 import json
 
 from annoying.decorators import render_to, ajax_request
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
@@ -52,7 +53,7 @@ def nominee(request):
 
 	return {'nominees': nominees}
 
-
+@login_required
 @render_to('victim.html')
 def victim(request):
 	current = Human.objects.get(is_active=True, current=True)
@@ -66,7 +67,6 @@ def victim(request):
 	victim.save()
 
 	m = ''
-	print(available.count())
 	if available.count() == 0:
 		humans = Human.objects.filter(is_active=True)
 		cycle = Talks.objects.get(pk=1)
