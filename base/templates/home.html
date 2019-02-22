@@ -9,16 +9,12 @@
       <div class="logo"></div>
     </div>
     <div class="col-3 text-right">
-      {% if user.is_authenticated %}
-        {% ifequal user.id current.user_id %}
         <a class="a__current"
           href="{% url 'current' %}"
           data-toggle="modal"
           data-target="#currentForm">
           Current speaker
         </a>
-        {% endifequal %}
-      {% endif %}
     </div>
   </div>
 

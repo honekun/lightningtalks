@@ -53,7 +53,6 @@ def nominee(request):
 
 	return {'nominees': nominees}
 
-@login_required
 @render_to('victim.html')
 def victim(request):
 	current = Human.objects.get(is_active=True, current=True)
