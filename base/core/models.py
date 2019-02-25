@@ -17,6 +17,7 @@ class Human(models.Model):
 	avatar = models.ImageField(upload_to='static/avatars/', null=True, blank=True)
 	lightning = models.BooleanField('Available', default=True)
 	current = models.BooleanField('Current', default=False)
+	last = models.BooleanField('last', default=False)
 	is_active = models.BooleanField('Active', default=True)
 
 	class Meta:

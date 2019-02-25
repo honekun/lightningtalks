@@ -55,6 +55,8 @@ def nominee(request):
 
 @render_to('victim.html')
 def victim(request):
+	cycle = Talks.objects.get(pk=1)
+
 	current = Human.objects.get(is_active=True, current=True)
 	current.current = False
 
@@ -65,13 +67,19 @@ def victim(request):
 	current.save()
 	victim.save()
 
-	m = ''
-	if available.count() == 0:
-		humans = Human.objects.filter(is_active=True)
-		cycle = Talks.objects.get(pk=1)
-		m = f'End of cycle #{cycle.cicle}'
+	if current.last:
+		current.last = False
+		current.save()
 		cycle.cicle = cycle.cicle + 1
 		cycle.save()
+
+	m = ''
+	if available.count() == 0:
+		victim.last = True
+		victim.save()
+		m = f'End of cycle #{cycle.cicle}'
+
+		humans = Human.objects.filter(is_active=True)		
 		for h in humans:
 			h.lightning = True
 			h.save()
