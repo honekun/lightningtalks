@@ -5,7 +5,7 @@ from .models import Human, Talks
 
 @admin.register(Human)
 class HumanAdmin(admin.ModelAdmin):
-	list_display = ( 'user', 'current', 'last', 'lightning', 'is_active')
+	list_display = ( 'user', 'current', 'last', 'in_line', 'lightning', 'is_active')
 	list_filter = ('current', 'last', 'lightning')
 
 @admin.register(Talks)

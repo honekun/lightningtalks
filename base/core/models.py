@@ -18,6 +18,7 @@ class Human(models.Model):
 	lightning = models.BooleanField('Available', default=True)
 	current = models.BooleanField('Current', default=False)
 	last = models.BooleanField('last', default=False)
+	in_line = models.IntegerField('Next in Line', default=0)
 	is_active = models.BooleanField('Active', default=True)
 
 	class Meta:

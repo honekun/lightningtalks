@@ -13,7 +13,7 @@
           href="{% url 'current' %}"
           data-toggle="modal"
           data-target="#currentForm">
-          Current speaker
+          Save a talk
         </a>
     </div>
   </div>
@@ -118,6 +118,40 @@
   </div>
 </div>
 
+<hr>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+
+      <div class="m__talk-info">
+        <div class="row justify-content-between m__talk-header">
+          <h2 class="col-9">Next in line</h2>
+        </div>
+
+        <div class="m__talk-body">
+          <div class="row">
+            {% for next in in_line %}
+              <div class="col-1">
+                {{ forloop.counter }}
+              </div>
+              <div class="col-1">
+                {% if next.avatar %}
+                <img class="m__talk-user" src="/{{talk.human.avatar}}" alt="User">
+                {% else %}
+                <img class="m__talk-user" src="{% static 'img/user.png' %}" alt="User">
+                {% endif %}
+              </div>
+              <div class="col-10">
+                <p>{{next}}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 

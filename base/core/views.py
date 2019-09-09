@@ -15,12 +15,13 @@ def home(request, cicle=None, topic=None):
 	if cicle is None:
 		cicle = Talks.objects.get(pk=1).cicle
 	if topic and topic != '0':
-		talks = Talks.objects.filter(cicle=cicle, topic=topic).order_by('-date')
+		talks = Talks.objects.filter(cicle=cicle, topic=topic).exclude(pk=1).order_by('-date')
 	else:
-		talks = Talks.objects.filter(cicle=cicle).order_by('-date')
+		talks = Talks.objects.filter(cicle=cicle).exclude(pk=1).order_by('-date')
 	current = Human.objects.get(is_active=True, current=True)
 	form = TalksForm(initial={'human': current})
-	return { 'talks' : talks, 'current' : current, 'form': form }
+	in_line = Human.objects.filter(is_active=True, in_line__gt=0).order_by('in_line')
+	return { 'talks' : talks, 'form': form, 'current': current, 'in_line': in_line }
 
 
 @ajax_request
@@ -58,12 +59,21 @@ def victim(request):
 	cycle = Talks.objects.get(pk=1)
 
 	current = Human.objects.get(is_active=True, current=True)
+	current.in_line = 0
 	current.current = False
 
 	available = Human.objects.filter(is_active=True, lightning=True).order_by('?')
 	victim = available.first()
-	victim.current = True
 	victim.lightning = False
+	victim.in_line = 4
+
+	in_lines = Human.objects.filter(is_active=True, in_line__gt=0)
+	for n in in_lines:
+		n.in_line -= 1
+		if n.in_line == 1:
+			n.current = True
+		n.save()
+
 	current.save()
 	victim.save()
 
